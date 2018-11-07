@@ -30,18 +30,19 @@ function isGoodParens(string) {
   //1. string을 배열로 바꾼다.
   var array = string.split("");
   var result = array.reduce(function(acc, char) {
+    if(acc < 0){
+        return acc;
+    }
     if (char === "(") {
       ++acc;
     } else {
       --acc;
     }
-    console.log
-    //if( acc < 0 ) return acc;
     return acc;
   }, 0);
 
-  if (result === 0) return false;
-  else return true;
+  if (result === 0) return true;
+  else return false;
 }
 console.log(isGoodParens("(((())))")); //true
 console.log(isGoodParens(")((())))())")); //false
