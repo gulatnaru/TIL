@@ -16,7 +16,7 @@ for (var i =0; i < products.length; i++){
 
 /* ES6 filter */
 var vagetables = [];
-var vegetables = products.filter(function(product){
+var vegetables = products.filter(function(product){ //모든 값을 찾아서 뱉음
     return product.type === 'vegetable'
 });
 
@@ -38,7 +38,7 @@ var users = [
     {id: 2, admin: false},
     {id: 3, admin: true},
     {id: 4, admin: true},
-    {id; 5, admin: false}
+    {id: 5, admin: false}
 ]
 
 var admins = users.filter(user => user.admin );
@@ -47,11 +47,19 @@ var admins = users.filter(user => user.admin );
 var numbers = [10, 20, 30];
 
 function reject(array, iterFunction){
-
+    var filteredArray = array.filter(function(element){
+        return !iterFunction(element)
+    });
+    return filteredArray;
 }
 
-var lessThan15 = reject(numbers, function(number){
+function myFunction(number){
     return number > 15;
-});
+}
+
+myFunction(10) // false
+myFunction(20) // true
+
+var lessThan15 = reject(numbers,myFunction);
 
 console.log(lessThan15) //10
