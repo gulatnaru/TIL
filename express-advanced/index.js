@@ -1,3 +1,5 @@
+const home = require('./routes/home');
+const movies = require('./routes/movies');
 const debug = require('debug')('app:startup');
 const helmet = require('helmet');
 const config = require('config');
@@ -22,7 +24,9 @@ app.use(express.json());
 // /api/users?key1=value1&key2=value2
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static('public'));
-app.use( logger );
+app.use(logger);
+app.use('/api/movies', movies);
+app.use(home);
 
 //app.use( auth );
 
@@ -39,22 +43,22 @@ app.use(function(req, res, next){
     next();
 });
 
-const movies = [
-  { id: 1, title: 'Bohemian Rhapsody' },
-  { id: 2, title: 'Matrix' },
-  { id: 3, title: 'Edge of Tommorow' },
-];
+// const movies = [
+//   { id: 1, title: 'Bohemian Rhapsody' },
+//   { id: 2, title: 'Matrix' },
+//   { id: 3, title: 'Edge of Tommorow' },
+// ];
 
-app.get('/', (req, res) => {
-    res.render('index', {
-        title: 'Happy Hacking',
-        greeting: 'May you have happy hacking'
-    })
-})
+// app.get('/', (req, res) => {
+//     res.render('index', {
+//         title: 'Happy Hacking',
+//         greeting: 'May you have happy hacking'
+//     })
+// })
 
-app.get('/', (req, res) => {
-  res.send('Happy Hacking');
-});
+// app.get('/', (req, res) => {
+//   res.send('Happy Hacking');
+// });
 
 app.get('/:name', (req, res) => {
   res.send(`Hi, ${req.params.name}`);
