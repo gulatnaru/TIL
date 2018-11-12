@@ -2,102 +2,85 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 
-const movies = [
-    { id: 1, title: 'Bohemian Rhapsody'},
-    { id: 2, title: 'Matrix'},
-    { id: 3, title: 'Edge of Tommorow'}
-]
+app.use(express.json());
 
-const schema = {
-    title: Joi.string().min(2).required(),
-}
+const movies = [
+  { id: 1, title: 'Bohemian Rhapsody' },
+  { id: 2, title: 'Matrix' },
+  { id: 3, title: 'Edge of Tommorow' },
+];
 
 app.get('/', (req, res) => {
-    res.send('Happy Hacking');
+  res.send('Happy Hacking');
 });
 
 app.get('/:name', (req, res) => {
-    res.send(`Hi, ${req.params.name}`);
+  res.send(`Hi, ${req.params.name}`);
 });
 
-// CRUD
-// CREATE READ UPDATE DESTROY
-// POST   GET  PUT    DELETE
 
-/* GET /api/movies/1 */
+/* GET /api/movies */
 app.get('/api/movies', (req, res) => {
-    res.send(movies);
+  res.send(movies);
 });
 
 /* GET /api/movies/1 */
 app.get('/api/movies/:id', (req, res) => {
-    const movie = movies.find((movie) => {
-        return movie.id === parseInt(req.params.id);
-    });
-    if(!movie){
-        res.status(404).send(`Movie with given id(${req.params.id}) is not found`);
-    }
-    res.send(movie);
+  const movie = getMovie(movies, parseInt(req.params.id));
+  if (!movie) res.status(404).send(`Movie with given id(${req.params.id}) is not found.`);
+  res.send(movie);
 });
 
-/* POST /api/movies/1 */
+/* POST /api/movies */
 app.post('/api/movies', (req, res) => {
+  const { error } = validateMovie(req.body)
 
-    const result = Joi.validate(req.body, schema);
-    console.log('==============');
-    console.log(result);
-    console.log('==============');
+  if (error) return res.status(400).send(error.message);
+  
+  const movie = {
+    id: movies.length + 1,
+    title: req.body.title
+  };
 
-    if(result.error){
-        return res.status(400).send(result.error.message);
-    }
-
-    const movie = {
-        id: movies.length + 1,
-        title: req.body.title
-    };
-    movies.push(movie);
-    res.send(movies);
+  movies.push(movie);
+  res.send(movie);
 });
 
 /* PUT /api/movies/1 */
-app.put('/api/movies/:id', (res, req) => {
-    console.log(req.params.id);
-    // movies에서 id로 movie를 찾는다.
-    const movie = movies.find( movie =>  movie.id === parseInt(req.params.id));
-    
-    //없으면 404
-    if(!movie){
-        res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
-    }
-    console.log(movie);
-    //아니면 입력 데이터를 검사한다.
-    const result = Joi.validate(req.body, schema);
+app.put('/api/movies/:id', (req, res) => {
+  const movie = getMovie(movies, parseInt(req.params.id));
+  if (!movie) return res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
+  
+  const { error } = validateMovie(req.body)
+  // const error = validateMovie(req.body).error;
 
-    // Good! Update한다.
-    movie.title = req.body.title;
-    res.send(movie);
+  if (error) return res.status(400).send(error.message);
+
+  movie.title = req.body.title;
+  res.send(movie);
 });
 
 /* DELETE /api/movies/1 */
 app.delete('/api/movies/:id', (req, res) => {
-    // movies에서 id로 movie를 찾는다.
-    const movie = movies.find( movie =>  movie.id === parseInt(req.params.id));
-    
-    //없으면 404
-    if(!movie){
-        res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
-    }
-    console.log(movie);
-    //아니면 입력 데이터를 검사한다.
-    const result = Joi.validate(req.body, schema);
+  const movie = getMovie(movies, parseInt(req.params.id));
+  if (!movie) return res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
 
-    //delete 로직 수행
-    movies.splice(movies.indexOf(movie), 1);
+  const index = movies.indexOf(movie);
+  movies.splice(index, 1);
 
-    //삭제된 데이터 send
-    res.send(movies);
+  res.send(movie);
 });
 
+function validateMovie(movie) {
+  const schema = {
+    title: Joi.string().min(2).required(),
+  }
+  return Joi.validate(movie, schema);
+}
+
+function getMovie(movies, id){
+  return movies.find(movie => movie.id === id)
+}
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listen on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`));
