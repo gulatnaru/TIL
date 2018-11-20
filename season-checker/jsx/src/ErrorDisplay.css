@@ -1,0 +1,10 @@
+.error {
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.error h1{
+    color: white;
+}
