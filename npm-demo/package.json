@@ -1,0 +1,19 @@
+{
+  "name": "npm-demo",
+  "version": "1.0.0",
+  "description": "Learn NPM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yu tae young",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "multicampus": "^1.1.0",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.6"
+  }
+}

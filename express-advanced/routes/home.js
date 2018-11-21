@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('index', {
-        title: 'Happy Hacking',
-        greeting: 'May you have happy hacking'
-    })
-})
+  res.render('index', {
+    title: 'HappyHacking',
+    greeting: 'May you have HAPPY HACKING'
+  })
+});
 
-router.get('/', (req, res) => {
-  res.send('Happy Hacking');
+router.get('/:name', (req, res) => {
+  res.send(`Hi, ${req.params.name}`);
 });
 
 module.exports = router;

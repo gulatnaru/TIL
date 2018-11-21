@@ -1,0 +1,14 @@
+.error {
+  background-color: darkslateblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  
+}
+
+.error-message {
+  position: absolute;
+}

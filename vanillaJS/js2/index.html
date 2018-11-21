@@ -2,31 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello</title>
+    <title>Yu Tae Young</title>
 </head>
 <body>
     <h1 id="hphk">Happy Hacking!</h1>
     <div>
-        <a id="a1" href="#">Who said that</a>
+        <a href="#" id="a">Who said that?</a>
     </div>
     <div>
-        <a id="a2" href="#">Said what?</a>
+        <a href="#" id="b">Said what?</a>
     </div>
-
+    
     <script>
-        const a1 = document.querySelector('#a1');
-        const a2 = document.querySelector('#a2');
-
         const h1 = document.querySelector('#hphk');
-
-        a1.addEventListener('click', () => {
+        const a = document.querySelector('#a');
+        const b = document.querySelector('#b');
+        a.addEventListener('click', () => {
             h1.innerHTML = 'Richard Stallman';
         });
-
-        a2.addEventListener('click', () => {
-            h1.innerHTML = `I'm not glad he's dead, but I'm glad he's gone`;
-        })
         
+        b.addEventListener('click', () => {
+            h1.innerHTML = 'Happy Hacking!';
+        });
     </script>
 </body>
 </html>

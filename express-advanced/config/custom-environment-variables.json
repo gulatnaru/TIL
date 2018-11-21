@@ -1,5 +1,5 @@
 {
-    "DB": {
-        "password": "DB_password"
-    }
+  "DB": {
+    "password": "DB_password"
+  }
 }
